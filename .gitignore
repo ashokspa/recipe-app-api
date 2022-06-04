@@ -127,3 +127,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# SSH Keys
+recipe_api_project
+recipe_api_project.pub
