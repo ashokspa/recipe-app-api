@@ -1,0 +1,36 @@
+1. Create Docker Access Toekn and Add it to the git secrets
+	DOCKERHUB_USER
+	londonappdevdemo
+	DOCKERHUB_TOKEN
+	b13da459-81ab-46e4-8f66-38bec9c3cd96
+
+Generating SSH Key For Github Account :
+
+1. Generate SSH Key
+	->ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+	  The above command will prompt you to enter file name to save ssh keys
+
+	- > Enter a file in which to save the key (/c/Users/you/.ssh/id_algorithm):[Press enter]
+		ex: recipe_api_project
+		
+	-> Enter passphrase (empty for no passphrase): [Type a passphrase]
+	   ex: Welcome@123
+	   
+	 -> Enter same passphrase again: [Type passphrase again]
+		ex: Welcome@123
+	
+2.  Add ssh Key to the ssh-agent
+	Before adding a new SSH key to the ssh-agent to manage your keys, you should have checked for existing SSH keys and generated a new SSH key. 
+	
+	-> Ensure the ssh-agent is running. You can use the "Auto-launching the ssh-agent" instructions in "Working with SSH key passphrases", or start it manually:
+	# start the ssh-agent in the background
+	
+	-> Add your SSH private key to the ssh-agent. If you created your key with a different name, or if you are adding an existing key that has a different name, replace id_ed25519 in the command with the name of your private key file.
+	
+	ex: ssh-add ~/.ssh/recipe_api_project
+	
+3. Add the ssh key to your github account
+   Copy the SSH public key to your clipboard.
+   clip < ~/.ssh/id_ed25519.pub
+   and add to ssh key section in your github account
+	
