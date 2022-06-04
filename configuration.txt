@@ -21,7 +21,8 @@ Generating SSH Key For Github Account :
 	
 2.  Add ssh Key to the ssh-agent
 	Before adding a new SSH key to the ssh-agent to manage your keys, you should have checked for existing SSH keys and generated a new SSH key. 
-	
+	eval "$(ssh-agent -s)"
+	it will provide you pid
 	-> Ensure the ssh-agent is running. You can use the "Auto-launching the ssh-agent" instructions in "Working with SSH key passphrases", or start it manually:
 	# start the ssh-agent in the background
 	eval "$(ssh-agent -s)"
