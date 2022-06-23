@@ -1,39 +1,99 @@
-1. Create Docker Access Toekn and Add it to the git secrets
+1. Create Docker Access Toekn and Add it to the git secrets : (SECTION 1)
 	DOCKERHUB_USER
-	londonappdevdemo
+		londonappdevdemo
 	DOCKERHUB_TOKEN
-	b13da459-81ab-46e4-8f66-38bec9c3cd96
+		b13da459-81ab-46e4-8f66-38bec9c3cd96
 
-Generating SSH Key For Github Account :
+2. Generating SSH Key For Github Account : (SECTION 2)
 
-1. Generate SSH Key
-	->ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
-	  The above command will prompt you to enter file name to save ssh keys
+	1. Generate SSH Key
+		->ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+		The above command will prompt you to enter file name to save ssh keys
 
-	- > Enter a file in which to save the key (/c/Users/you/.ssh/id_algorithm):[Press enter]
-		ex: recipe_api_project
-		
-	-> Enter passphrase (empty for no passphrase): [Type a passphrase]
-	   ex: Welcome@123
-	   
-	 -> Enter same passphrase again: [Type passphrase again]
+		- > Enter a file in which to save the key (/c/Users/you/.ssh/id_algorithm):[Press enter]
+			ex: recipe_api_project
+			
+		-> Enter passphrase (empty for no passphrase): [Type a passphrase]
 		ex: Welcome@123
+		
+		-> Enter same passphrase again: [Type passphrase again]
+			ex: Welcome@123
+		
+	2.  Add ssh Key to the ssh-agent
+		Before adding a new SSH key to the ssh-agent to manage your keys, you should have checked for existing SSH keys and generated a new SSH key. 
+		eval "$(ssh-agent -s)"
+		it will provide you pid
+		-> Ensure the ssh-agent is running. You can use the "Auto-launching the ssh-agent" instructions in "Working with SSH key passphrases", or start it manually:
+		# start the ssh-agent in the background
+		eval "$(ssh-agent -s)"
+		it will provide you pid
+		
+		-> Add your SSH private key to the ssh-agent. If you created your key with a different name, or if you are adding an existing key that has a different name, replace id_ed25519 in the command with the name of your private key file.
+		
+		ex: ssh-add ~/.ssh/recipe_api_project
+		
+	3. Add the ssh key to your github account
+	Copy the SSH public key to your clipboard.
+	clip < ~/.ssh/id_ed25519.pub
+	and add to ssh key section in your github account
 	
-2.  Add ssh Key to the ssh-agent
-	Before adding a new SSH key to the ssh-agent to manage your keys, you should have checked for existing SSH keys and generated a new SSH key. 
-	eval "$(ssh-agent -s)"
-	it will provide you pid
-	-> Ensure the ssh-agent is running. You can use the "Auto-launching the ssh-agent" instructions in "Working with SSH key passphrases", or start it manually:
-	# start the ssh-agent in the background
-	eval "$(ssh-agent -s)"
-	it will provide you pid
+3. Git User Configuration : (SECTION 3)
+
+	if you wants to use ssh keys please follow the : SECTION 3
+	and configure remote origin 
+		ex: git remote add origin git@github.com:ashokspa/recipe-app-api.git
+
+
+	if you wants to use https we need to configure in the below format
+
+		git config --local user.name "Ashok Thangellapally"
+		git config --local user.email "tashok.503@gmail.com"
 	
-	-> Add your SSH private key to the ssh-agent. If you created your key with a different name, or if you are adding an existing key that has a different name, replace id_ed25519 in the command with the name of your private key file.
+	if you face any issues while pushing using local configuration use this command
 	
-	ex: ssh-add ~/.ssh/recipe_api_project
+		git config --local credential.helper ""	
+		add remote repositer using the below command if not crated already:
+			git remote add origin https://github.com/ashokspa/recipe-app-api.git
+			
+4.  Project Setup :
+    
+	1. Create docker file for project set.
+		docker file contains 
+		  -> python alpine image 
+		  -> python virtual environment
+		  -> python requirement.txt file
+		  -> copy requirement.txt file from local source to application folder
+		  -> copy local application folder to the container
+		  -> Expose port numbers
+		  -> create user for docker container image os
+		  
+	2. Build docker image using the docker file
+		-> docker built --tag imageName .
+		which builds docker image using the configuration defined in the Dockerfile
+		
+	3. Create docker-compose.yml file 
+	   docker-compose proides configuration parameters to run the docker application container
+	   ex; setting port numbers
+		   builds image and attach it to the contianer
+		   
+5. Configuring linting and testing to the apllication.
+		   
+	Linting highlights syntactical and stylistic problems in your Python source code, which often helps you identify and correct subtle programming errors or unconventional coding practices that can lead to errors
 	
-3. Add the ssh key to your github account
-   Copy the SSH public key to your clipboard.
-   clip < ~/.ssh/id_ed25519.pub
-   and add to ssh key section in your github account
+	
+	inorder to use linting we need to configure:	
+	
+	1. We use flake8 libray for python linting, this is a development dependancy so we keep this flake8 in requirement.dev.txt file
+	so that we can use flake8 for linting only in development version
+	
+	2. set requirement.dev.txt in docker file so that only development dependencis will be installed
+	when we use the application in development mode
+	
+	3. Configure .flake8 configuration file which which contains settings related to flaker libray
+	   for ex: if we want to exclude few files which needs to be excluded form linting then we can configure them in the .flake8 configuration file
+	   
+	4. Finally run the linting tool by using docker-compose
+	   ex: docker-compose run --rm app sh -c "flake8" 
+	   
+	
 	
