@@ -5,7 +5,6 @@
 		b13da459-81ab-46e4-8f66-38bec9c3cd96
 
 2. Generating SSH Key For Github Account : (SECTION 2)
-   Another source : https://linuxkamarada.com/en/2019/07/14/using-git-with-ssh-keys/#.YwoEmxxBy3A
 
 	1. Generate SSH Key
 		->ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
