@@ -153,9 +153,5 @@
 			-> libpq-dev
 			
 	Alpine Dependencies :
-		-> postgresql-client
-		-> build-base
-		-> postgresql-dev
-		-> musql-dev
-		
+		-> 
 		   
