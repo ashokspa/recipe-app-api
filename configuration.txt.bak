@@ -1,10 +1,11 @@
 1. Create Docker Access Toekn and Add it to the git secrets : (SECTION 1)
 	DOCKERHUB_USER
-		londonappdevdemo
+		tashok
 	DOCKERHUB_TOKEN
-		b13da459-81ab-46e4-8f66-38bec9c3cd96
+		dckr_pat_Dv6Idp0TgsZo4GgQRjJVf8vid9c
 
 2. Generating SSH Key For Github Account : (SECTION 2)
+   Another source : https://linuxkamarada.com/en/2019/07/14/using-git-with-ssh-keys/#.YwoEmxxBy3A
 
 	1. Generate SSH Key
 		->ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
@@ -96,4 +97,45 @@
 	   ex: docker-compose run --rm app sh -c "flake8" 
 	   
 	
+6. Initial Setup and Test
+
+	1. docker-compose build
+	2. docker-compose run --rm app sh -c "flake8"
+	3. docker-compose run --rm app sh -c "django-admin startproject app ."
+	4. docker-compose up
+
+	Sample Unit Test Execution
+
+	  Unit test cases can be written in different ways
+	  1. Creating tests module in Application folder
+		We can write test cases directly in Django application folder and test module name should be tests.py
+	  2. Creating test modules in seperate folder for each application.
+		 If we wants to create test modules in seperate folder we need to create __init__.py file inorder to identify this folder as package
+		 and every test moule should be started with "test_"
+		  ex: test_first_module
+			  test_second_module
+			  
+	  Ex:
+		For this example we are creating tests.py file in app folder as it is the deafult application for our current project
+		1. calc.py
+		2. tests.py
+		
+		basically calc.py file containes calculator function which adds two numbers and returns the value
+		where as tests.py file contains test code where it check the add function written in calc.py file
+		
+		calc.py
+		"""
+		Calculator function
+		"""
+		
+		def add(x,y):
+		""" Add x, y and return the result """
+			return x+y
+			
+			
+		docker-compose run --rm app sh -c "python manage.py test"
+		
+8. Configure Database
+   once database service has been configured in docker-compose.yml we can start the service by using
+	- docker-compose up
 	
