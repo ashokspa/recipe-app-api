@@ -139,4 +139,3 @@
    once database service has been configured in docker-compose.yml we can start the service by using
 	- docker-compose up
 	
-	#sample comment
